@@ -36,7 +36,7 @@ pub fn (mut m Messagram) login(user string, pass string) int {
 	mut reader := io.new_buffered_reader(reader: m.socket)
 	m.send_msg('{"status": "true","username": "${user}"}\n')
 	time.sleep(1*time.second)
-	m.send_msg('{"status": "true/false","password": "${pass}"}\n')
+	m.send_msg('{"status": "true","password": "${pass}"}\n')
 	login_check := reader.read_line() or { "" }
 	parse_json := get_key_value(login_check, "login_status")
 	if parse_json == "0" {
