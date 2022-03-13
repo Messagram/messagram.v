@@ -1,11 +1,14 @@
-/*
-	Messagram.v Chat Connection
-*/
+/*************** Messagram *************
+@title: Messagram.v Chat Module
+@author: Erupt
+@since: 3/13/22
+*************Copyright © 2922**********/
 module messagram
 
 import io
 import os
 import net
+import time
 
 pub struct Messagram {
 	pub mut:
@@ -27,6 +30,12 @@ pub fn messagram_connect(mut m Messagram) {
 	println("Connected")
 
 	go m.listener(mut server)
+}
+
+pub fn (mut m Messagram) login(user string, pass string) {
+	m.send_msg("${user}\n")
+	time.sleep(1*time.second)
+	m.send_msg("${pass}\n")
 }
 
 pub fn (mut m Messagram) listener(mut server net.TcpConn) {
