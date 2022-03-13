@@ -32,10 +32,17 @@ pub fn messagram_connect(mut m Messagram) {
 	go m.listener(mut server)
 }
 
-pub fn (mut m Messagram) login(user string, pass string) {
-	m.send_msg("${user}\n")
+pub fn (mut m Messagram) login(user string, pass string) int {
+	mut reader := io.new_buffered_reader(reader: m.socket)
+	m.send_msg('{"status": "true","username": "${user}"}\n')
 	time.sleep(1*time.second)
-	m.send_msg("${pass}\n")
+	m.send_msg('{"status": "true/false","password": "${pass}"}\n')
+	login_check := reader.read_line() or { "" }
+	parse_json := get_key_value(login_check, "login_status")
+	if parse_json == "0" {
+		return 0
+	}
+	return 1
 }
 
 pub fn (mut m Messagram) listener(mut server net.TcpConn) {
@@ -62,7 +69,7 @@ pub fn (mut m Messagram) listener(mut server net.TcpConn) {
 	}
 }
 
-pub fn (mut m Messagram) send_msg(t string) int {
+pub fn (mut m Messagram) send_msg(username string, t string) int {
 	m.socket.write_string("$t") or { 
 		println("no")
 		return 0 
