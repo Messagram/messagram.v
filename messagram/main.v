@@ -9,6 +9,7 @@ import io
 import os
 import net
 import time
+import x.json2
 
 pub struct Messagram {
 	pub mut:
@@ -116,4 +117,17 @@ pub fn get_key_value(j string, key string) string {
 		}
 	}
 	return ""
+}
+
+pub fn validate_json_syntax(j string) bool {
+	if j.len < 2 { return false }
+	if j.starts_with("{") && j.ends_with("}") {
+
+	}
+
+	if j,contains("\n") {
+		for i, line in j.split("\n") {
+
+		}
+	}
 }
