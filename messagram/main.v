@@ -137,3 +137,15 @@ pub fn validate_json_syntax(j string) bool {
 	}
 	return validation
 }
+
+
+pub fn create_json(keys []string, values []string) {
+	mut json_format := "{"
+	for i, key in keys {
+		if i == key.len {
+			json_format += '"${key}":"${values[i]}"}'
+		} else {
+			json_format += '"${key}":"${values[i]}",'
+		}
+	}
+}
