@@ -52,7 +52,7 @@ pub fn (mut m Messagram) listener(mut server net.TcpConn) {
 		data := reader.read_line() or { "" }
 
 		if data.len == 0 || data == "" { continue }
-		// Validate JSON Response
+		if validate_json_syntax(data) == false { continue }
 
 		mut cmd := ""
 
@@ -119,6 +119,12 @@ pub fn get_key_value(j string, key string) string {
 	return ""
 }
 
+/*
+		How to use:
+			if validate_json_syntax(data) {
+				// valid syntax
+			}
+*/
 pub fn validate_json_syntax(j string) bool {
 	mut validation := false
 	if j.len < 2 { return false }
@@ -138,7 +144,12 @@ pub fn validate_json_syntax(j string) bool {
 	return validation
 }
 
+/*
+		How to use:
+			json := create_json(["status", "username"], ["true", "lulzsec"])
 
+			println(json)
+*/
 pub fn create_json(keys []string, values []string) string {
 	mut json_format := "{"
 	for i, key in keys {
