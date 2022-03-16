@@ -96,9 +96,23 @@ pub fn (mut m Messagram) grab_new_msg() string {
 }
  
 /*
-		Some custom JSON Functions
+		I switch languages alot so to avoid using or learning the JSON module in different languages
+		that i havent used them in yet
+		
+		I have created some custom JSON Functions
+
+		- Validate JSON Syntax in String
+		- Validate key in JSON String
+		- Get the key's value in JSON String
+		- Create JSON 
 */
 
+/*
+		How to use:
+			if validate_key_in_json(json, "key") {
+				// valid key in JSON string
+			}
+*/
 pub fn validate_key_in_json(j string, key string) bool {
 	json_line := j.split("\n")
 	for i, line in json_line {
@@ -109,6 +123,10 @@ pub fn validate_key_in_json(j string, key string) bool {
 	return false
 }
 
+/*
+		How to use:
+			mut value := get_key_value(json, "key")
+*/
 pub fn get_key_value(j string, key string) string {	
 	json_line := j.split("\n")
 	for i, line in json_line {
