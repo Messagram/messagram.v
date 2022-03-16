@@ -120,14 +120,20 @@ pub fn get_key_value(j string, key string) string {
 }
 
 pub fn validate_json_syntax(j string) bool {
+	mut validation := false
 	if j.len < 2 { return false }
 	if j.starts_with("{") && j.ends_with("}") {
-
-	}
+		validation = true
+	} else { return false }
 
 	if j,contains("\n") {
-		for i, line in j.split("\n") {
-
+		lines := j.split("\n")
+		for i, line in lines {
+			if line != "{" || line != "}" {
+				if line.starts_with("\"") && line.ends_with("\"") { validation = true } else { return false }
+				if line.contains(":") { validation = true } else { return false }
+			}
 		}
 	}
+	return validation
 }
