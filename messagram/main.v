@@ -52,7 +52,7 @@ pub fn (mut m Messagram) listener(mut server net.TcpConn) {
 		data := reader.read_line() or { "" }
 
 		if data.len == 0 || data == "" { continue }
-		if validate_json_syntax(data) == false { continue }
+		if validate_json_syntax(data) == false { continue } // Ignoring unaccepted data. or data that isnt JSON syntax which should be never
 
 		mut cmd := ""
 
@@ -71,6 +71,7 @@ pub fn (mut m Messagram) listener(mut server net.TcpConn) {
 }
 
 pub fn (mut m Messagram) send_msg(username string, t string) int {
+	mut json_data := create_json(["status", "cmd", "content"], ["true", "msg", "${t}"])
 	m.socket.write_string("$t") or { 
 		println("no")
 		return 0 
